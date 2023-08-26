@@ -7,7 +7,7 @@ Artifacts HotCRP Id: **2024.1/106**
 Requested Badge: Either **Reproducible**
 
 ## Description
-We provide the source code necessary to build the software used to obtain the results in our paper, in Section 6, Performance. This software is a fork of PICCO.
+We provide the source code necessary to build the software used to obtain the results in our paper, in Section 6, Performance.
 
 
 ## Basic Requirements
@@ -33,9 +33,9 @@ The operating system used was Ubuntu 18.04.6 LTS with the GNU/Linux 4.15.0-193-g
 The individual algorithm tests run anywhere from a few seconds (e.g. for arithmtic addition), up to an hour or two for malicious arithmetic comparisons at the largest input sizes. For any tests run over SSH, use of a terminal multiplexer is recommended.
 
 ## Environment
-Our source code is hosted in a GitHub repository, with instructions described below. It is a fork of the PICCO repository from the applied-crypto-lab. The following software is required (all available free of charge):
+Our source code is hosted in a GitHub repository, with instructions described below. The following software is required (all available free of charge):
 
-  - GNU gcc\g++ compiler
+  - GNU gcc g++ compiler
   - GMP (The GNU Multiple Precision Arithmetic Library)
   - openSSL library v1.1
   - GNU Bison parser
@@ -45,8 +45,8 @@ You can download the repository using HTTPS, SSH, or GitHub CLI. The respective 
 
 ```bash
 git clone https://github.com/applied-crypto-lab/mal-ext-circuits.git
-git clone git@github.com:applied-crypto-lab/picco.git
-gh repo clone applied-crypto-lab/picco
+git clone git@github.com:applied-crypto-lab/mal-ext-circuits.git
+gh repo clone applied-crypto-lab/mal-ext-circuits
 ```
 
 #### Once the repository has been downloaded, package installation can be verified by calling the following
@@ -69,7 +69,7 @@ apt-get install bison
 
 Once the libraries are installed and the repository is downloaded, navigate to the ```mal-ext-circuits``` directory of the local repository and issue ```./build.sh```.
 
-This should build all souce code, and you should see three prorgams: ```picco, picco-seed,``` and ```picco-utility```, in the ```compiler/bin``` directory, as well as executables ```arith_sh, arithm_mal, bit_sh```, and ```bit_mal``` in the ```compute``` directory. You should also see three public and three private keys in the ```compute``` directory, named ```public-X.pem``` and ```private-X.pem``` for ```X = 1, 2, 3```.
+This should build all souce code, and you should see executables ```arith_sh, arithm_mal, bit_sh```, and ```bit_mal``` in the ```compute``` directory. You should also see three public and three private keys in the ```compute``` directory, named ```public-X.pem``` and ```private-X.pem``` for ```X = 1, 2, 3```.
 
 
 ### Main Results and Claims
@@ -94,7 +94,7 @@ Our experiments simulate three mutually distrusting parties engaging in distribu
 #### To run the relevant tests, do the following:
 
   - Open four terminals. Navigate to the `compute` directory in each and run `LAN.sh` script.
-  - The program ```run-comp.sh``` runs all three computational parties as well as the required PICCO seed generation program as party 0
+  - The program ```run-comp.sh``` runs all three computational parties as well as the required seed generation program as party 0
   - The command structure is
     - ```./run-comp.sh <circuit type> <threat model> <alg> <config file suffix> <party#> <debug flag>```
       - circuit type is in {arith, bit}
@@ -140,6 +140,6 @@ Our experiments simulate three mutually distrusting parties engaging in distribu
 For the largest input sizes, especially for malicious arithmetic at input size 100000, memory consumption can be an issue. We have restricted that largest size to 50 iterations and note that if less memory is available for testing, then this and possibly other iteration counts may need to be reduced. Conversely, if more memory is available, then more iterations may be comfortably run. In either case, memory paging should be avoided since it will negatively impact performance.
 
 ## Notes on Reusability
-We aim to provide a general purpose multiparty computation compiler secure against malicious adversaries. This will extend the existing general purpose functionality of PICCO, which is secure against semihonest adversaries. Note that the PICCO manual is also provided in the repository to allow more general computation on a restricted subset of PICCO, as well as additional reference, but it should not be necessary to consult it in order to run the tests described in this document.
+We aim to provide a general purpose multiparty computation compiler secure against malicious adversaries. In particular, we expect that the verification mechanism can be applied to other functionalities, further extending the security guarantees of preexisting semihonest protocols for modest performance cost.
 
 
