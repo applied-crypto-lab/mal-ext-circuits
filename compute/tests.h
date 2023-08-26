@@ -21,17 +21,17 @@ verif_time += 1000000 * (end1.tv_sec - start1.tv_sec) + end1.tv_usec - start1.tv
 
 void get_time_summary(int id, std::string test_description, bool writing_to_file, unsigned long test_time, unsigned long verif_time)
 {
-	printf("Total time per run= %ld us\n", test_time);
-	printf("Verification time per run = %ld us\n", verif_time);
+  printf("Total time per run= %ld us\n", test_time);
+  printf("Verification time per run = %ld us\n", verif_time);
 
-	if (writing_to_file)
-	{
-		std::ofstream results_file;
-		results_file.open("time_test_results_" + std::to_string(id) + ".csv", std::ios::app);
+  if (writing_to_file)
+  {
+    std::ofstream results_file;
+    results_file.open("time_test_results_" + std::to_string(id) + ".csv", std::ios::app);
 
-		results_file << "\n" << test_description << "," << "," << test_time << "," << verif_time << "\n";
-		results_file.close();
-	}
+    results_file << "\n" << test_description << "," << "," << test_time << "," << verif_time << "\n";
+    results_file.close();
+  }
 }
 
 Debug *D;
