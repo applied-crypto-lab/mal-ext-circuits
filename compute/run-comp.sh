@@ -81,7 +81,7 @@ elif [[ "$circuit_type" == "bit" ]]; then
 	Input_Rep=(1000 1000 1000 100)
 elif [[ "$circuit_type" == "arith" ]]; then
 	Input_Size=(1 10 100 1000 10000 100000)
-	Input_Rep=(1000 1000 1000 100 100 100)
+	Input_Rep=(1000 1000 1000 100 100 50)
 fi
 
 num_input_dims=${#Input_Size[@]}

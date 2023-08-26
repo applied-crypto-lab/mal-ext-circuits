@@ -58,9 +58,6 @@ combined:
 	g++ -g -o run_tests run_tests.o $(OBJS) $(USER_OBJS) $(LIBS)
 
 
-# replace the line above with this one for multi-threaded programs
-#	g++ -o test-code test-code.o -I ./ompi/include/ompi $(OBJS) $(USER_OBJS) $(LIBS) -L ./ompi/lib/ompi -L ./ompi/lib/ompi/default -lort -lrt -lboost_thread
-
 clean:
 	-$(RM) *.o test-code
 
