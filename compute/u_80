@@ -1,0 +1,8 @@
+bits:80
+modulus:1208925819614629174706111
+peers:3
+inputs:1
+outputs:1
+I:1,a,int,1,1,32
+I:1,b,int,1,1,32
+O:1,res,int,1,1,32
