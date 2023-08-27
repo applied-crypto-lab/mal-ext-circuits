@@ -128,8 +128,10 @@ int __original_main(int _argc_ignored, char **_argv_ignored)
 		}
 	}
 
-	//__s->smc_get_communication_summary("", false);
-	__s->smc_reset_counters();
+	//NOTE see tests.h
+	write_csv_headers(id, debug_mode, threat_model);
+
+  __s->smc_reset_counters();
 
 	gettimeofday(&start, NULL);
 
@@ -205,7 +207,7 @@ int __original_main(int _argc_ignored, char **_argv_ignored)
 	}
 	else
 	{	//NOTE see tests.h
-		get_time_summary(id, test_description, true, test_time / rep, verif_time /rep);
+		get_time_summary(id, test_description, true, test_time / rep, verif_time /rep, threat_model);
 	}
 
 	for (int mi = 0; mi < 2; mi++)

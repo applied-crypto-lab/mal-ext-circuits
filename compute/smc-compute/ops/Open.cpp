@@ -43,8 +43,7 @@ int Open_semih_3(mpz_t var, int threadID, NodeNetwork net, int id, SecretShare *
   net.sendDataToPeer(id_m1, 1, &shares[id - 1]);
   net.getDataFromPeer(id_p1, 1, &shares[id_p1 - 1]);
 
-  int threshold = (peers - 1) / 2;
-  ss->reconstructSecret_T(results, shares, threshold);
+  ss->reconstructSecret_T(results, shares);
 
   for (int i = 0; i < 4; i++)
     mpz_clear(shares[i]);
@@ -77,8 +76,8 @@ int Open_semih(mpz_t var, int threadID, NodeNetwork net, int id, SecretShare *ss
   if (id_m1 == 0) id_m1 = peers;
 
   int threshold = (peers - 1) / 2;
-  net.broadcastToPeers_T(shares[id], (mpz_t*) shares, threshold, threadID);
-  ss->reconstructSecret_T(results, shares, threshold);
+  net.broadcastToPeers_T(shares[id], (mpz_t*) shares, threadID);
+  ss->reconstructSecret_T(results, shares);
 
   for (int i = 0; i < 4; i++)
     mpz_clear(shares[i]);

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd ../compiler
+cd compiler
 eval ./compile.sh
 cd ../compute
 make

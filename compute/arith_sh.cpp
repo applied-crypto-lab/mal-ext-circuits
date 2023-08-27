@@ -71,7 +71,9 @@ int __original_main(int _argc_ignored, char **_argv_ignored)
     i++;
   }
 
-  //__s->smc_get_communication_summary("", false);
+  //NOTE see tests.h
+  write_csv_headers(id, debug_mode, threat_model);
+
   __s->smc_reset_counters();
 
   gettimeofday(&start, NULL);
@@ -140,7 +142,7 @@ int __original_main(int _argc_ignored, char **_argv_ignored)
   }
   else
   {	//NOTE see tests.h
-    get_time_summary(id, test_description, true, test_time / rep, 0);
+    get_time_summary(id, test_description, true, test_time / rep, 0, threat_model);
   }
 
   mpz_clear(inp_a);

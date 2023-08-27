@@ -89,10 +89,11 @@ int __original_main(int _argc_ignored, char **_argv_ignored)
 	__s->smc_set(inp_a[0], cmp[0], num_bits, num_bits, "int", -1);
 	__s->smc_set(inp_a[1], cmp[1], num_bits, num_bits, "int", -1);
 
-	//__s->smc_get_communication_summary("", false);
-	__s->smc_reset_counters();
+  //NOTE see tests.h
+  write_csv_headers(id, debug_mode, threat_model);
 
-	verif_time = 0;
+  __s->smc_reset_counters();
+
 	gettimeofday(&start, NULL);
 
 	if (alg == "add")
@@ -165,7 +166,7 @@ int __original_main(int _argc_ignored, char **_argv_ignored)
 	}
 	else
 	{	//NOTE see tests.h
-		get_time_summary(id, test_description, true, test_time / rep, verif_time / rep);
+		get_time_summary(id, test_description, true, test_time / rep, verif_time / rep, threat_model);
 	}
 
 	mpz_clear(inp_a[0]);

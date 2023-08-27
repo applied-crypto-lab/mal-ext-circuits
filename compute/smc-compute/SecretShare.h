@@ -52,7 +52,8 @@ public:
   //Reconstruct a secret from shares
   void reconstructSecret(mpz_t, mpz_t*, bool);
   void reconstructSecret(mpz_t*, mpz_t**, int, bool);
-  void reconstructSecret_T(mpz_t result, mpz_t* y, int threshold);
+  void reconstructSecret_T(mpz_t result, mpz_t* y);
+  void reconstructSecret_T(mpz_t*, mpz_t**, int);
 
   //Modular Multiplication
   void modMul(mpz_t, mpz_t, mpz_t);

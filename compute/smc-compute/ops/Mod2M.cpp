@@ -47,9 +47,7 @@ Mod2M::Mod2M(NodeNetwork nodeNet, std::map<std::string, std::vector<int> > poly,
   Mul = new Mult(nodeNet, nodeID, s);
 }
 
-Mod2M::~Mod2M()
-{
-}
+Mod2M::~Mod2M() {}
 
 
 void Mod2M::doOperation(mpz_t* result, mpz_t* shares1, int K, int M, int size, int threadID){
@@ -101,8 +99,7 @@ void Mod2M::doOperation(mpz_t* result, mpz_t* shares1, int K, int M, int size, i
   ss->modAdd(C, C, pow2K1, size);
 
   //net.broadcastToPeers(C, size, resultShares, threadID);
-  int threshold = (peers - 1) / 2;
-  net.broadcastToPeers_T(C, size, resultShares, threshold, threadID);
+  net.broadcastToPeers_T(C, size, resultShares, threadID);
 
   ss->reconstructSecret(C, resultShares, size, true);
   ss->mod(C, C, pow2M, size);

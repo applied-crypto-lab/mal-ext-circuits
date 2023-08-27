@@ -141,7 +141,7 @@ void PrefixMultiplication::doOperation(mpz_t **input, mpz_t **result, int length
   }
 
   for (int i = 0; i < peers; i++) {
-    for (int j = 0; j < length_k; j++) {
+    for (int j = 0; j < length_k * size; j++) {
       mpz_clear(buffer1[i][j]);
       mpz_clear(buffer2[i][j]);
     }
@@ -151,7 +151,7 @@ void PrefixMultiplication::doOperation(mpz_t **input, mpz_t **result, int length
   free(buffer1);
   free(buffer2);
 
-  for (int i = 0; i < length_k; i++) {
+  for (int i = 0; i < length_k * size; i++) {
     mpz_clear(R[i]);
     mpz_clear(S[i]);
     mpz_clear(R_buff[i]);

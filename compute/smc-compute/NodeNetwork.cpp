@@ -91,7 +91,7 @@ void NodeNetwork::reset_comm_counter()
 void NodeNetwork::getSummary(std::string test_description, bool writing_to_file)
 {
   printf("Comm Counter 0 (bytes sent): %ld \n", comm_counter[0]);
-  printf("Comm counter 1 (bytes received): %ld \n", comm_counter[1]);
+  printf("Comm Counter 1 (bytes received): %ld \n", comm_counter[1]);
 
   if (writing_to_file)
   {
@@ -376,7 +376,6 @@ void NodeNetwork::multicastToPeers(long long** srcBuffer, long long **desBuffer,
 void NodeNetwork::multicastToPeers(mpz_t** data, mpz_t** buffers, int size, int threadID){
   int id = getID();
   int peers = config->getPeerCount();
-  struct timeval tv1, tv2;
 
   int sendIdx = 0, getIdx = 0;
   //compute the maximum size of data that can be communicated
@@ -844,49 +843,79 @@ void NodeNetwork::multicastToPeers_Mul(mpz_t** data, int size, int threadID)
 }
 
 
-void NodeNetwork::multicastToPeers_T(mpz_t** data, int size, int threshold, int threadID)
+void NodeNetwork::multicastToPeers_T(mpz_t** data, int size, int threadID)
 {
   int id = getID();
   int peers = 1 + config->getPeerCount();
 
   int id_p1 = id + 1 + peers;
   int id_m1 = id - 1 + peers;
-  int peer = id_p1;
 
-  while (peer < id + threshold + 1 + peers)
+  int sendIdx = 0, getIdx = 0;
+  int count = 0, rounds = 0;
+  getRounds(size, &count, &rounds);
+
+  for (int p = 0; p < threshold; p++)
   {
     id_p1 %= peers;
     id_m1 %= peers;
     if (id_p1 == 0) id_p1 = peers;
     if (id_m1 == 0) id_m1 = peers;
-
-    int sendIdx = 0, getIdx = 0;
-    int count = 0, rounds = 0;
-    getRounds(size, &count, &rounds);
     for(int k = 0; k <= rounds; k++)
     {
       sendDataToPeer(id_m1, data[id_m1 - 1], k * count, count, size);
-      getDataFromPeer(id_p1, data[id_p1 - 1],k * count, count, size);
+      getDataFromPeer(id_p1, data[id_p1 - 1], k * count, count, size);
     }
-    peer++;
     id_p1++;
     id_m1--;
   }
 }
 
 
-void NodeNetwork::broadcastToPeers_T(mpz_t data, mpz_t *buffers, int threshold, int threadID)
+void NodeNetwork::multicastToPeers_T(mpz_t** data, mpz_t** buffers, int size, int threadID)
 {
   int id = getID();
   int peers = 1 + config->getPeerCount();
 
   int id_p1 = id + 1 + peers;
   int id_m1 = id - 1 + peers;
-  int peer = id_p1;
+
+  int sendIdx = 0, getIdx = 0;
+  int count = 0, rounds = 0;
+  getRounds(size, &count, &rounds);
+
+  for (int p = 0; p < threshold; p++)
+  {
+    id_p1 %= peers;
+    id_m1 %= peers;
+    if (id_p1 == 0) id_p1 = peers;
+    if (id_m1 == 0) id_m1 = peers;
+    for(int k = 0; k <= rounds; k++)
+    {
+      sendDataToPeer(id_m1, data[id_m1 - 1], k * count, count, size);
+      getDataFromPeer(id_p1, buffers[id_p1 - 1], k * count, count, size);
+    }
+    id_p1++;
+    id_m1--;
+  }
+  for(int i = 0; i < size; i++)
+  {
+    mpz_set(buffers[id-1][i], data[id-1][i]);
+  }
+}
+
+
+void NodeNetwork::broadcastToPeers_T(mpz_t data, mpz_t *buffers, int threadID)
+{
+  int id = getID();
+  int peers = 1 + config->getPeerCount();
+
+  int id_p1 = id + 1 + peers;
+  int id_m1 = id - 1 + peers;
 
   mpz_set(buffers[id-1], data);
 
-  while (peer < id + threshold + 1 + peers)
+  for (int p = 0; p < threshold; p++)
   {
     id_p1 %= peers;
     id_m1 %= peers;
@@ -896,7 +925,6 @@ void NodeNetwork::broadcastToPeers_T(mpz_t data, mpz_t *buffers, int threshold, 
     sendDataToPeer(id_m1, 1, &buffers[id-1]);
     getDataFromPeer(id_p1, 1, &buffers[id_p1 - 1]);
 
-    peer++;
     id_p1++;
     id_m1--;
   }
@@ -904,7 +932,7 @@ void NodeNetwork::broadcastToPeers_T(mpz_t data, mpz_t *buffers, int threshold, 
 }
 
 
-void NodeNetwork::broadcastToPeers_T(mpz_t* data, int size, mpz_t** buffers, int threshold, int threadID)
+void NodeNetwork::broadcastToPeers_T(mpz_t* data, int size, mpz_t** buffers, int threadID)
 {
   int id = getID();
   int peers = 1 + config->getPeerCount();
@@ -914,12 +942,11 @@ void NodeNetwork::broadcastToPeers_T(mpz_t* data, int size, mpz_t** buffers, int
 
   int id_p1 = id + 1 + peers;
   int id_m1 = id - 1 + peers;
-  int peer = id_p1;
 
   for(int j = 0; j < size; j++)
     mpz_set(buffers[id-1][j], data[j]);
 
-  while (peer < id + threshold + 1 + peers)
+  for (int p = 0; p < threshold; p++)
   {
     id_p1 %= peers;
     id_m1 %= peers;
@@ -932,7 +959,6 @@ void NodeNetwork::broadcastToPeers_T(mpz_t* data, int size, mpz_t** buffers, int
       getDataFromPeer(id_p1, buffers[id_p1 - 1], k * count, count, size);
     }
 
-    peer++;
     id_p1++;
     id_m1--;
   }

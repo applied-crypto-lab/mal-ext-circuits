@@ -321,8 +321,8 @@ void MaliciousSMC::malBufferReset()
 
 void MaliciousSMC::clean_mal()
 {
-  printf("total verification time is %ld us\n", VerificationTimer);
-  printf("%i errors out of %i runs\n", error_count, verify_count);
+  //printf("total verification time is %ld us\n", VerificationTimer);
+  printf("%i verification errors out of %i runs\n", error_count, verify_count);
   mpz_clear(r);
 
   for (int i = 0; i < 2 * curCap_mal; i++)

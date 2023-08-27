@@ -74,8 +74,7 @@ void Mod2::doOperation(mpz_t* A, mpz_t* result, int K, int size, int threadID){
     ss->modAdd(C, C, const2K1, size);
   ss->modAdd(C, C, S, size);
   //net.broadcastToPeers(C, size, shares, threadID);
-  int threshold = (peers - 1) / 2;
-  net.broadcastToPeers_T(C, size, shares, threshold, threadID);
+  net.broadcastToPeers_T(C, size, shares, threadID);
   ss->reconstructSecret(C, shares, size, true);
   for(int i = 0; i < size; i++){
     binarySplit(C[i], Bit, 1);

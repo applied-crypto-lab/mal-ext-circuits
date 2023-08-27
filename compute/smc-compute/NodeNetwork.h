@@ -93,9 +93,10 @@ public:
   void getRandOfPeer(int id, mpz_t *rand_id, int size);
   void multicastToPeers_Mul(mpz_t** data, int size, int threadID);
   void multicastToPeers_Mul2(mpz_t** data, int size);
-  void multicastToPeers_T(mpz_t** data, int size, int threshold, int threadID);
-  void broadcastToPeers_T(mpz_t data, mpz_t* buffers, int threshold, int threadID);
-  void broadcastToPeers_T(mpz_t* data, int size, mpz_t** buffers, int threshold, int threadID);
+  void multicastToPeers_T(mpz_t** data, int size, int threadID);
+  void multicastToPeers_T(mpz_t** data, mpz_t** buffers, int size, int threadID);
+  void broadcastToPeers_T(mpz_t data, mpz_t* buffers, int threadID);
+  void broadcastToPeers_T(mpz_t* data, int size, mpz_t** buffers, int threadID);
 
   void Returnkey(unsigned char * key0,unsigned char * key1);
 

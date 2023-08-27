@@ -25,6 +25,8 @@
 #include <cstdlib>
 #include <gmp.h>
 #include <cstring>
+
+
 SecretShare::SecretShare(int p, int t, int pid, mpz_t mod)
 {
   peers = p;
@@ -414,24 +416,6 @@ void SecretShare::computeLagrangeWeight(){
 }
 
 
-void SecretShare::reconstructSecret_T(mpz_t result, mpz_t* y, int threshold)
-{
-  mpz_t temp;
-  mpz_init(temp);
-  mpz_set_ui(result, 0);
-  int peer = id + 1 + peers;
-  while (peer < id + threshold + 1)
-  {
-    peer %= peers;
-    if (peer == 0) peer = peers;
-    modMul(temp, y[peer], lagrangeWeight[peer]);
-    modAdd(result, result, temp);
-    peer++;
-  }
-  mpz_clear(temp);
-}
-
-
 void SecretShare::reconstructSecret(mpz_t result, mpz_t* y, bool isMultiply){
   mpz_t temp;
   mpz_init(temp);
@@ -453,6 +437,46 @@ void SecretShare::reconstructSecret(mpz_t* result, mpz_t** y, int size, bool isM
       modMul(temp, y[peer][i], lagrangeWeight[peer]);
       modAdd(result[i],result[i], temp);
     }
+  }
+  mpz_clear(temp);
+}
+
+
+void SecretShare::reconstructSecret_T(mpz_t result, mpz_t* y)
+{
+  mpz_t temp;
+  mpz_init(temp);
+  mpz_set_ui(result, 0);
+  int peer = id + 1 + peers;
+  for (int p = 0; p < threshold; p++)
+  {
+    peer %= peers;
+    if (peer == 0) peer = peers;
+    modMul(temp, y[peer-1], lagrangeWeight[peer-1]);
+    modAdd(result, result, temp);
+    peer++;
+  }
+  mpz_clear(temp);
+}
+
+
+void SecretShare::reconstructSecret_T(mpz_t* result, mpz_t** y, int size){
+  mpz_t temp;
+  mpz_init(temp);
+  for(int i = 0; i < size; i++)
+  {
+    mpz_set_ui(result[i], 0);
+  }
+  int peer = id + 1 + peers;
+  for (int p = 0; p < threshold; p++)
+  {
+    peer %= peers;
+    if (peer == 0) peer = peers;
+    for(int i = 0; i < size; i++){
+      modMul(temp, y[peer-1][i], lagrangeWeight[peer-1]);
+      modAdd(result[i],result[i], temp);
+    }
+    peer++;
   }
   mpz_clear(temp);
 }
