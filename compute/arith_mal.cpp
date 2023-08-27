@@ -30,8 +30,6 @@ int __original_main(int _argc_ignored, char **_argv_ignored)
 	struct timeval start;
 	struct timeval end;
 	unsigned long test_time;
-	struct timeval start1;
-	struct timeval end1;
 	unsigned long verif_time = 0;
 
 	mpz_t **a = (mpz_t **)malloc(sizeof(mpz_t*) * 2);
@@ -103,7 +101,7 @@ int __original_main(int _argc_ignored, char **_argv_ignored)
 		{
 			__s->smc_add_mal(a, b, num_bits, num_bits, c, num_bits, batch_size, "int", -1);
 
-			run_verification();	//NOTE see tests.h
+			__s->smc_verify();
 		}
 	}
 
@@ -114,7 +112,7 @@ int __original_main(int _argc_ignored, char **_argv_ignored)
 		{
 			__s->smc_mult_mal(a, b, num_bits, num_bits, c, num_bits, batch_size, "int", -1);
 
-			run_verification();	//NOTE see tests.h
+			__s->smc_verify();
 		}
 	}
 
@@ -125,7 +123,7 @@ int __original_main(int _argc_ignored, char **_argv_ignored)
 		{
 			__s->smc_lt_mal(a, b, num_bits, num_bits, c, num_bits, batch_size, "int", -1);
 
-			run_verification();	//NOTE see tests.h
+			__s->smc_verify();
 		}
 	}
 
@@ -136,7 +134,7 @@ int __original_main(int _argc_ignored, char **_argv_ignored)
 		{
 			__s->smc_eqeq_mal(a, b, num_bits, num_bits, c, num_bits, batch_size, "int", -1);
 
-			run_verification();	//NOTE see tests.h
+			__s->smc_verify();
 		}
 	}
 
@@ -149,7 +147,7 @@ int __original_main(int _argc_ignored, char **_argv_ignored)
 			__s->smc_dot_mal(c, c, batch_size, d, -1);
 			__s->smc_lt_mal(d, cmp, res, num_bits, num_bits, num_bits, "int", -1);
 
-			run_verification();	//NOTE see tests.h
+			__s->smc_verify();
 		}
 	}
 
@@ -166,7 +164,7 @@ int __original_main(int _argc_ignored, char **_argv_ignored)
 	}
 	else
 	{	//NOTE see tests.h
-		get_time_summary(id, test_description, true, test_time / rep, verif_time / rep, threat_model);
+		get_time_summary(id, test_description, true, test_time / rep, __s->smc_get_verif_time() / rep, threat_model);
 	}
 
 	mpz_clear(inp_a[0]);

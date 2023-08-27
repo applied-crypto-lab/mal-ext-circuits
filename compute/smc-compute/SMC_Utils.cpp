@@ -507,6 +507,13 @@ void SMC_Utils::smc_verify()
   MSmc->verify();
 }
 
+
+unsigned long SMC_Utils::smc_get_verif_time()
+{
+  return MSmc->VerificationTimer;
+}
+
+
 void SMC_Utils::smc_eqeq_mal(mpz_t** a, mpz_t** b, int alen, int blen, mpz_t** result, int resultlen, int size, std::string type, int threadID)
 {
   mpz_t** sub = (mpz_t**)malloc(sizeof(mpz_t*) * 2);

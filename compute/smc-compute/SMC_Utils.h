@@ -90,6 +90,7 @@ public:
 
   void smc_getr_mal(mpz_t a);
   void smc_verify();
+  unsigned long smc_get_verif_time();
 
 
   //Methods for input and output

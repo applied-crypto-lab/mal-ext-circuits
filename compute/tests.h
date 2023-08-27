@@ -12,12 +12,6 @@
 #define PRIME_80 "1208925819614629174706111"
 #define PRIME_128 "340252366920938463463374607431768211669"
 
-#define run_verification()\
-\
-gettimeofday(&start1, NULL);\
-__s->smc_verify();\
-gettimeofday(&end1, NULL);\
-verif_time += 1000000 * (end1.tv_sec - start1.tv_sec) + end1.tv_usec - start1.tv_usec;
 
 void get_time_summary(int id, std::string test_description, bool writing_to_file, unsigned long test_time, unsigned long verif_time, int threat_model)
 {
