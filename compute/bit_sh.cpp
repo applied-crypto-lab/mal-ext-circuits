@@ -68,6 +68,7 @@ int __original_main(int _argc_ignored, char **_argv_ignored)
 
   //__s->smc_input(1, &input, "int", -1);
 
+  /*CAUTION  only use for correctness testing; otherwise communication values depend on the variable size of inputs defined in tests.h
   if (debug_mode)
   {
     num_bits = sizeof(input_a) / sizeof(int);
@@ -83,6 +84,7 @@ int __original_main(int _argc_ignored, char **_argv_ignored)
   }
   else
   {
+  */
     for (int i = 0; i < batch_size; i++)
     {
       for (int j = 0; j < num_bits; j++)
@@ -91,10 +93,12 @@ int __original_main(int _argc_ignored, char **_argv_ignored)
         mpz_set_ui(b[i][j], j % 2);
       }
     }
+  /*CAUTION  only use for correctness testing; otherwise communication values depend on the variable size of inputs defined in tests.h
   }
+  */
 
   //NOTE see tests.h
-  write_csv_headers(id, debug_mode, threat_model);
+  //write_csv_headers(id, debug_mode, threat_model);
 
   __s->smc_reset_counters();
 

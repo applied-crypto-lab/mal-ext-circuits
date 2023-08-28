@@ -94,6 +94,7 @@ int __original_main(int _argc_ignored, char **_argv_ignored)
 	mpz_init_set_ui(inp_b[0], 1);
 	mpz_init(inp_b[1]);
 
+  /*CAUTION  only use for correctness testing; otherwise communication values depend on the variable size of inputs defined in tests.h
 	if (debug_mode)
 	{
 		num_bits = sizeof(input_a) / sizeof(int);
@@ -111,6 +112,7 @@ int __original_main(int _argc_ignored, char **_argv_ignored)
 	}
 	else
 	{
+	*/
 		__s->smc_input_mal(inp_a, inp_b, "int", -1);
 
 		for (int i = 0; i < batch_size; ++i)
@@ -124,10 +126,12 @@ int __original_main(int _argc_ignored, char **_argv_ignored)
 				mpz_set(b[1][i][j], inp_b[1]);
 			}
 		}
+  /*CAUTION  only use for correctness testing; otherwise communication values depend on the variable size of inputs defined in tests.h
 	}
+	*/
 
 	//NOTE see tests.h
-	write_csv_headers(id, debug_mode, threat_model);
+	//write_csv_headers(id, debug_mode, threat_model);
 
   __s->smc_reset_counters();
 
