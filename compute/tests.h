@@ -17,26 +17,27 @@ void get_time_summary(int id, std::string test_description, bool writing_to_file
 {
 	printf("Total time per run= %ld us\n", test_time);
 
+  std::ofstream results_file;
+  results_file.open("time_test_results_" + std::to_string(id) + ".csv", std::ios::app);
+
   if (threat_model == MALICIOUS)
   {
-    printf("Verification time per run = %ld us\n", verif_time);
-    printf("Verification precentage = %5.3f%\n", (float) 100 * verif_time / test_time);
-  }
-	if (writing_to_file)
-	{
-		std::ofstream results_file;
-		results_file.open("time_test_results_" + std::to_string(id) + ".csv", std::ios::app);
+    float verif_pctg = test_time == 0 ? 0 : (float) 100 * verif_time / test_time;
 
-    if (threat_model == MALICIOUS)
+    printf("Verification time per run = %ld us\n", verif_time);
+    printf("Verification precentage = %5.3f%\n", verif_pctg);
+
+    if (writing_to_file)
     {
-      results_file << "\n" << test_description << "," << "," << test_time << "," << verif_time << "," << (float) 100 * verif_time / test_time << "\n";
+      results_file << "\n" << test_description << "," << "," << test_time << "," << verif_time << "," << verif_pctg << "\n";
     }
-    else
-    {
-      results_file << "\n" << test_description << "," << "," << test_time << "\n";
-    }
-		results_file.close();
+  }
+	else if (writing_to_file)
+  {
+    results_file << "\n" << test_description << "," << "," << test_time << "\n";
 	}
+
+	results_file.close();
 }
 
 void write_csv_headers(int id, int debug_mode, int threat_model)

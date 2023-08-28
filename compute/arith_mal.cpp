@@ -67,7 +67,16 @@ int __original_main(int _argc_ignored, char **_argv_ignored)
 	mpz_set_ui(inp_a[0], 2);
 	mpz_set_ui(inp_b[0], 3);
 
-	__s->smc_input_mal(inp_a, inp_b, "int", -1);
+  if (alg == "add")
+  { //verification not needed for arithmetic addition only
+    printf("adding\n");
+    __s->smc_input(1, inp_a, "int", -1);
+    __s->smc_input(1, inp_b, "int", -1);
+  }
+  else
+  {
+    __s->smc_input_mal(inp_a, inp_b, "int", -1);
+  }
 
 	for (int i = 0; i < batch_size; i++)
 	{
@@ -101,7 +110,8 @@ int __original_main(int _argc_ignored, char **_argv_ignored)
 		{
 			__s->smc_add_mal(a, b, num_bits, num_bits, c, num_bits, batch_size, "int", -1);
 
-			__s->smc_verify();
+      //NOTE nothing to verify here
+			//__s->smc_verify();
 		}
 	}
 
