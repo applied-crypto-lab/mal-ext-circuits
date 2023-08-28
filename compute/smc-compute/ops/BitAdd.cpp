@@ -112,27 +112,20 @@ void BitAdd::doOperation(mpz_t **input_A, mpz_t **input_B, mpz_t **output, int *
 
   prefixCarry(p, g, sizes, batch_size, threadID);
 
-  buff_p1 = 0;
   for (int i = 0; i < batch_size; ++i)
   {
+    mpz_set(output[i][0], input_A[i][0]);
+    ss->modAdd(output[i][0], output[i][0], input_B[i][0]);
+    ss->modMul(tmp, g[i][0], 2);
+    ss->modSub(output[i][0], output[i][0], tmp);
+
     for (int j = 1; j < sizes[i]; ++j)
     {
-      mpz_set(mult_Buff1[buff_p1], p_init[i][j]);
-      mpz_set(mult_Buff2[buff_p1++], g[i][j - 1]);
-    }
-  }
-
-  Mul->doOperation(mult_Buff3, mult_Buff1, mult_Buff2, buff_p1, threadID);
-
-  buff_p1 = 0;
-  for (int i = 0; i < batch_size; ++i)
-  {
-    mpz_set(output[i][0], p_init[i][0]);
-    for (int j = 1; j < sizes[i]; ++j)
-    {
-      ss->modAdd(output[i][j], p_init[i][j], g[i][j - 1]);
-      ss->modMul(tmp, mult_Buff3[buff_p1++], 2);
+      mpz_set(output[i][j], input_A[i][j]);
+      ss->modAdd(output[i][j], output[i][j], input_B[i][j]);
+      ss->modMul(tmp, g[i][j], 2);
       ss->modSub(output[i][j], output[i][j], tmp);
+      ss->modAdd(output[i][j], output[i][j], g[i][j - 1]);
     }
   }
 
@@ -515,50 +508,31 @@ void BitAdd::doOperation_mal(mpz_t ***input_A, mpz_t ***input_B, mpz_t ***output
 
   prefixCarry_mal(p, g, sizes, batch_size, threadID);
 
-  buff_p1 = 0;
   for (int i = 0; i < batch_size; ++i)
   {
-    for (int j = 1; j < sizes[i]; ++j)
-    {
-      mpz_set(mult_Buff1[buff_p1], p_init[0][i][j]);
-      mpz_set(mult_Buff2[buff_p1++], g[0][i][j - 1]);
-    }
-  }
+    mpz_set(output[0][i][0], input_A[0][i][0]);
+    ss->modAdd(output[0][i][0], output[0][i][0], input_B[0][i][0]);
+    ss->modMul(tmp, g[0][i][0], 2);
+    ss->modSub(output[0][i][0], output[0][i][0], tmp);
 
-  for (int i = 0; i < batch_size; ++i)
-  {
-    for (int j = 1; j < sizes[i]; ++j)
-    {
-      mpz_set(mult_Buff1[buff_p1], p_init[0][i][j]);
-      mpz_set(mult_Buff2[buff_p1++], g[1][i][j - 1]);
-    }
-  }
-
-  Mul->doOperation(mult_Buff3, mult_Buff1, mult_Buff2, buff_p1, threadID);
-  ms->pushBuffer(mult_Buff3, &mult_Buff3[buff_p1 / 2], buff_p1 / 2);
-
-  buff_p1 = 0;
-  for (int i = 0; i < batch_size; ++i)
-  {
-    mpz_set(output[0][i][0], p_init[0][i][0]);
+    mpz_set(output[1][i][0], input_A[1][i][0]);
+    ss->modAdd(output[1][i][0], output[1][i][0], input_B[1][i][0]);
+    ss->modMul(tmp, g[1][i][0], 2);
+    ss->modSub(output[1][i][0], output[1][i][0], tmp);
 
     for (int j = 1; j < sizes[i]; ++j)
     {
-      ss->modAdd(output[0][i][j], p_init[0][i][j], g[0][i][j - 1]);
-      ss->modMul(tmp, mult_Buff3[buff_p1++], 2);
+      mpz_set(output[0][i][j], input_A[0][i][j]);
+      ss->modAdd(output[0][i][j], output[0][i][j], input_B[0][i][j]);
+      ss->modMul(tmp, g[0][i][j], 2);
       ss->modSub(output[0][i][j], output[0][i][j], tmp);
-    }
-  }
+      ss->modAdd(output[0][i][j], output[0][i][j], g[0][i][j - 1]);
 
-  for (int i = 0; i < batch_size; ++i)
-  {
-    mpz_set(output[1][i][0], p_init[1][i][0]);
-
-    for (int j = 1; j < sizes[i]; ++j)
-    {
-      ss->modAdd(output[1][i][j], p_init[1][i][j], g[1][i][j - 1]);
-      ss->modMul(tmp, mult_Buff3[buff_p1++], 2);
+      mpz_set(output[1][i][j], input_A[1][i][j]);
+      ss->modAdd(output[1][i][j], output[1][i][j], input_B[1][i][j]);
+      ss->modMul(tmp, g[1][i][j], 2);
       ss->modSub(output[1][i][j], output[1][i][j], tmp);
+      ss->modAdd(output[1][i][j], output[1][i][j], g[1][i][j - 1]);
     }
   }
 
@@ -910,10 +884,6 @@ void BitAdd::twosComplement_mal(mpz_t ***input_A, mpz_t ***output, int *sizes, i
   free(mult_Buff2);
   free(mult_Buff3);
 }
-
-
-
-
 
 
 
