@@ -23,9 +23,9 @@
 
 #include "Operation.h"
 
-int Open_semih_3(mpz_t var, int threadID, NodeNetwork net, int id, SecretShare *ss);
-int Open_semih(mpz_t var, int threadID, NodeNetwork net, int id, SecretShare *ss);
-int Open_mal(mpz_t var, int threadID, NodeNetwork net, int id, SecretShare *ss);
+int Open_3(mpz_t var, int threadID, NodeNetwork net, int id, SecretShare *ss);
+int Open_T(mpz_t var, int threadID, NodeNetwork net, int id, SecretShare *ss);
+int Open_N(mpz_t var, mpz_t *results, int threadID, NodeNetwork net, int id, SecretShare *ss);
 void reveal(mpz_t *var, int size, int threadID, NodeNetwork net, int id, SecretShare *ss);
 
 

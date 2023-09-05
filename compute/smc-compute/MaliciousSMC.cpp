@@ -176,7 +176,6 @@ void MaliciousSMC::verify()
   int verifySize = curRow_mal * rowCap_mal + curPoint_mal;
   //printf("Verification buffer size: %i\n", verifySize);
 
-  int id = net.getID();
   mpz_t field_size;
   mpz_init(field_size);
   ss->getFieldSize(field_size);
@@ -220,7 +219,7 @@ void MaliciousSMC::verify()
   else
   {
     rand->generateRandValue(config->getID(), config->getBits(), 1, rand_seed);
-    int open_seed = Open_mal(rand_seed[0], -1, net, id, ss);
+    int open_seed = Open_N(rand_seed[0], NULL, -1, net, id, ss);
     mpz_set_ui(rand_seed[0], open_seed);
     gmp_randinit_mt(verifyRandomState);
     gmp_randseed(verifyRandomState, rand_seed[0]);
@@ -283,21 +282,19 @@ void MaliciousSMC::verify()
   Mul->doOperation(&sum2, &zerochk_rand[0], &sum2, 1, -1);
   mpz_clear(zerochk_rand[0]);
 
-  int checkResult = Open_mal(sum2, -1, net, id, ss);
+  int checkResult = Open_N(sum2, NULL, -1, net, id, ss);
 
   malBufferReset();
   verify_count++;
 
   if(checkResult == 0)
   {
-    //printf("CORRECT! \n");
+    //printf("Successful on run %i\n", verify_count);
   }
   else
   {
     error_count++;
-    //printf("Error at run %i\n", verify_count);
-    //printf("check res: %d\n", checkResult);
-    //reveal(&r, 1, -1);
+    //printf("Error on run %i\n", verify_count);
   }
 
   for (int i = 0; i < 2; i++)
@@ -341,6 +338,30 @@ void MaliciousSMC::clean_mal()
   }
 
   printf("End Malicious Mode\n");
+}
+
+
+void MaliciousSMC::check_ver(mpz_t **buf, int buf_size)
+{
+  mpz_t *rbuf = (mpz_t *) malloc(sizeof(mpz_t) * buf_size);
+  mpz_t *randomized_buf = (mpz_t *) malloc(sizeof(mpz_t) * buf_size);
+  for (int i = 0; i < buf_size; i++)
+  {
+    mpz_init_set(rbuf[i], r);
+    mpz_init(randomized_buf[i]);
+  }
+
+  Mul->doOperation(randomized_buf, buf[0], rbuf, buf_size, -1);
+  ss->modSub(rbuf, randomized_buf, buf[1], buf_size);
+  show(rbuf, buf_size, net, id, ss);
+
+  for (int i = 0; i < buf_size; i++)
+  {
+    mpz_clear(rbuf[i]);
+    mpz_clear(randomized_buf[i]);
+  }
+  free(rbuf);
+  free(randomized_buf);
 }
 
 

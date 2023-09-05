@@ -28,6 +28,7 @@ public:
   void verify();
   void pushBuffer(mpz_t *result, mpz_t *resultR, int size);
   bool checkBuffer(int size);
+  void check_ver(mpz_t **buf, int buf_size);
 
   int getcurRow();
   void malBufferReset();
