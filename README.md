@@ -1,4 +1,4 @@
-The repository corresponds to the article "**Efficiently Compiling Secure Computation Protocols From Passive to Active Security: Beyond Arithmetic Circuits**" published in the Proceedings on Privacy Enhancing Technologies (PoPETs), Vol. 2024, No. 1. 
+The repository corresponds to the implementation in the article "**Efficiently Compiling Secure Computation Protocols From Passive to Active Security: Beyond Arithmetic Circuits**" published in the Proceedings on Privacy Enhancing Technologies (PoPETs), Vol. 2024, No. 1. 
 
 ## Description
 We provide the source code necessary to build the software used to obtain the results in our paper, in Section 6, Performance.
