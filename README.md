@@ -1,6 +1,4 @@
-# Artifact Appendix
-
-Paper title: **Efficiently Compiling Secure Computation Protocols From Passive to Active Security: Beyond Arithmetic Circuits**
+The repository corresponds to the article **Efficiently Compiling Secure Computation Protocols From Passive to Active Security: Beyond Arithmetic Circuits** published in the Proceedings on Privacy Enhancing Technologies (PoPETs), Vol. 2024, No. 1. 
 
 Artifacts HotCRP Id: **2024.1/106**
 
