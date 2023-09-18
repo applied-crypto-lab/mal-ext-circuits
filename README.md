@@ -1,8 +1,4 @@
-The repository corresponds to the article **Efficiently Compiling Secure Computation Protocols From Passive to Active Security: Beyond Arithmetic Circuits** published in the Proceedings on Privacy Enhancing Technologies (PoPETs), Vol. 2024, No. 1. 
-
-Artifacts HotCRP Id: **2024.1/106**
-
-Requested Badge: Either **Reproducible**
+The repository corresponds to the article "**Efficiently Compiling Secure Computation Protocols From Passive to Active Security: Beyond Arithmetic Circuits**" published in the Proceedings on Privacy Enhancing Technologies (PoPETs), Vol. 2024, No. 1. 
 
 ## Description
 We provide the source code necessary to build the software used to obtain the results in our paper, in Section 6, Performance.
