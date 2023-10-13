@@ -96,9 +96,6 @@ int __original_main(int _argc_ignored, char **_argv_ignored)
 	__s->smc_set(inp_a[0], cmp[0], num_bits, num_bits, "int", -1);
 	__s->smc_set(inp_a[1], cmp[1], num_bits, num_bits, "int", -1);
 
-  //NOTE see tests.h
-  write_csv_headers(id, debug_mode, threat_model);
-
   __s->smc_reset_counters();
 
 	gettimeofday(&start, NULL);

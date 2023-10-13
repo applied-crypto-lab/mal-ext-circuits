@@ -4,14 +4,11 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y git gcc 
 
 RUN git clone https://github.com/applied-crypto-lab/mal-ext-circuits
 
+RUN chmod 700 /mal-ext-circuits/compute/LAN.sh
+RUN chmod 700 /mal-ext-circuits/compute/run-comp.sh
+
 WORKDIR "/mal-ext-circuits"
 
 RUN ./build.sh
 
-COPY LAN.sh /mal-ext-circuits/compute/LAN.sh
-
-RUN chmod 700 /mal-ext-circuits/compute/LAN.sh
-
 WORKDIR "/mal-ext-circuits/compute"
-
-CMD LAN.sh

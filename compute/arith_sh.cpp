@@ -71,9 +71,6 @@ int __original_main(int _argc_ignored, char **_argv_ignored)
     i++;
   }
 
-  //NOTE see tests.h
-  write_csv_headers(id, debug_mode, threat_model);
-
   __s->smc_reset_counters();
 
   gettimeofday(&start, NULL);

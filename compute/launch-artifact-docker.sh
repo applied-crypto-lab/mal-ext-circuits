@@ -8,6 +8,10 @@ if [ "$peer_id" == "0" ]; then
   exit
 fi
 
+if [[ -e results/ ]]; then
+  rm -rf results/*
+fi
+
 notify_and_quit()
 {
 	echo
@@ -40,9 +44,27 @@ done
 
 container_name="mal-ext-circuits-$peer_id"
 
-eval "docker run -it --rm --network="host" -p $port_num:$port_num --cap-add=NET_ADMIN --detach --name $container_name mal-ext-circuits /bin/bash"
-eval "docker cp $cfg_file $container_name:/mal-ext-circuits/compute "
+eval "docker run -it --rm --network="host" -p $port_num:$port_num --cap-add=NET_ADMIN --detach --name $container_name mal-ext-circuits-image /bin/bash"
+
+if [[ "$cfg_file" == "runtime-config-local" ]]; then
+  eval "docker exec -it $container_name /mal-ext-circuits/compute/LAN.sh"
+else
+  eval "docker cp $cfg_file $container_name:/mal-ext-circuits/compute"
+fi
+
 eval "docker exec -it $container_name /bin/bash"
+eval "docker exec -it $container_name /bin/bash -c \"mkdir -p /results; cp -f *_test_results* /results\""
+
+if ! [[ -e results/ ]]; then
+  mkdir results
+fi
+
+eval "docker cp $container_name:/results/. results/"
 eval "docker stop $container_name"
+
+if [[ -e results/time_test_results_1.csv ]] && [[ -e results/time_test_results_2.csv ]] && [[ -e results/time_test_results_3.csv ]]; then
+  echo "Compiling timing data"
+  eval "python3 extract_time_results.py results/"
+fi
 
 
