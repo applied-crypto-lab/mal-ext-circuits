@@ -3,6 +3,11 @@
 cfg_file=runtime-config-$1
 peer_id=$2
 
+if [[ "$cfg_file" == "" ]]; then
+  echo "Missing config file suffix"
+  exit
+fi
+
 if [ "$peer_id" == "0" ]; then
   eval "docker exec -it mal-ext-circuits-1 /bin/bash"
   exit
