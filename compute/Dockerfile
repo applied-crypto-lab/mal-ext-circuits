@@ -4,6 +4,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y git gcc 
 
 RUN git clone https://github.com/applied-crypto-lab/mal-ext-circuits
 
+RUN chmod 700 /mal-ext-circuits/build.sh
 RUN chmod 700 /mal-ext-circuits/compute/LAN.sh
 RUN chmod 700 /mal-ext-circuits/compute/run-comp.sh
 

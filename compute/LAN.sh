@@ -1,11 +1,15 @@
 #!/bin/bash
 
-device=eth0
+net_device=$1
 
-dev_rule=$(tc qdisc show dev $device)
+if [[ "$net_device" == "" ]]; then
+  net_device=eth0
+fi
+
+dev_rule=$(tc qdisc show dev $net_device)
 
 if [[ "$dev_rule" == "" ]]; then
-  tc qdisc add dev $device root tbf rate 1000Mbit latency 0.1ms burst 500000
+  tc qdisc add dev $net_device root tbf rate 1000Mbit latency 0.1ms burst 500000
 else
-  tc qdisc replace dev $device root tbf rate 1000Mbit latency 0.1ms burst 500000
+  tc qdisc replace dev $net_device root tbf rate 1000Mbit latency 0.1ms burst 500000
 fi

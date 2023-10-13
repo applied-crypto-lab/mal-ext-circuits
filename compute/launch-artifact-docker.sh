@@ -2,10 +2,18 @@
 
 cfg_file=runtime-config-$1
 peer_id=$2
+net_device=$3
+
+notify_and_quit()
+{
+	echo
+	echo $1
+	echo
+	exit
+}
 
 if [[ "$cfg_file" == "" ]]; then
-  echo "Missing config file suffix"
-  exit
+  notify_and_quit "Missing config file suffix"
 fi
 
 if [ "$peer_id" == "0" ]; then
@@ -16,14 +24,6 @@ fi
 if [[ -e results/ ]]; then
   rm -rf results/*
 fi
-
-notify_and_quit()
-{
-	echo
-	echo $1
-	echo
-	exit
-}
 
 if ! [[ $peer_id =~ ^[0-3]+$ ]]; then
 	notify_and_quit "Invalid peer id \"$peer_id\"; must be between 0 and 3 inclusive"
@@ -52,7 +52,7 @@ container_name="mal-ext-circuits-$peer_id"
 eval "docker run -it --rm --network="host" -p $port_num:$port_num --cap-add=NET_ADMIN --detach --name $container_name mal-ext-circuits-image /bin/bash"
 
 if [[ "$cfg_file" == "runtime-config-local" ]]; then
-  eval "docker exec -it $container_name /mal-ext-circuits/compute/LAN.sh"
+  eval "docker exec -it $container_name /mal-ext-circuits/compute/LAN.sh $net_device"
 else
   eval "docker cp $cfg_file $container_name:/mal-ext-circuits/compute"
 fi
