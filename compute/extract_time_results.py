@@ -37,7 +37,7 @@ csv_header = ""
 num_data_cols = len(csv_splits[0][0])
 if num_data_cols - DATA_START == 1:
   csv_header = ",,,,,,,,test time (us)"
-if num_data_cols - DATA_START == 3:
+elif num_data_cols - DATA_START == 3:
   csv_header = ",,,,,,,,test time (us),verification time (us),verification pctg"
 else:
   print("Malformed csv files detected")
