@@ -17,6 +17,8 @@
  along with PICCO. If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* NOTE This file has been modified from its original form for use in the applied-crypto-lab/biom-auth codebase */
+
 #ifndef NODENETWORK_H_
 #define NODENETWORK_H_
 

@@ -1,5 +1,25 @@
 #!/bin/bash
 
+###############################################################################
+# Efficiently Compiling Secure Computation Protocols From Passive to
+# Active Security: Beyond Arithmetic Circuits
+#	Copyright (C) 2024  Marina Blanton and Dennis Murphy,
+# University at Buffalo, State University of New York.
+#
+#	This program is free software: you can redistribute it and/or modify
+#	it under the terms of the GNU General Public License as published by
+#	the Free Software Foundation, either version 3 of the License, or
+#	(at your option) any later version.
+#
+#	This program is distributed in the hope that it will be useful,
+#	but WITHOUT ANY WARRANTY; without even the implied warranty of
+#	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#	GNU General Public License for more details.
+#
+#	You should have received a copy of the GNU General Public License
+#	along with this program.  If not, see <https://www.gnu.org/licenses/>.
+###############################################################################
+
 circuit_type=$1	#in {arith, bit}
 threat_model=$2 #in {sh, mal}
 chosen_alg=$3	#in {add, mul, lt, equ, ed, all}, choice of "all" subject to circuit_type, threat_model
@@ -36,7 +56,7 @@ if { ! { [[ ${Algs[@]} =~ $chosen_alg ]] || [[ "$chosen_alg" == "all" ]]; }; }; 
 	notify_and_quit "Invalid algorithm"
 fi
 
-if (( $peer_id < 0 )) || (( $peer_id > 3 )); then
+if ! [[ $peer_id =~ ^[0-3]+$ ]]; then
 	notify_and_quit "Invalid peer id"
 fi
 

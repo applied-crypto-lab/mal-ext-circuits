@@ -1,4 +1,4 @@
-This repository corresponds to the implementation in the article "**Efficiently Compiling Secure Computation Protocols From Passive to Active Security: Beyond Arithmetic Circuits**" published in the Proceedings on Privacy Enhancing Technologies (PoPETs), Vol. 2024.
+This repository corresponds to the implementation in the article "**Efficiently Compiling Secure Computation Protocols From Passive to Active Security: Beyond Arithmetic Circuits**" published in the Proceedings on Privacy Enhancing Technologies (PoPETs), Vol. 2024, Issue 1.
 
 The code is a fork of PICCO, The complete motivation, design, and analysis of PICCO can be found in the [2013 CCS paper](https://doi.org/10.1145/2508859.2516752), and the main PICCO repository can be found at https://github.com/applied-crypto-lab/picco.
 
@@ -34,7 +34,9 @@ gh repo clone applied-crypto-lab/mal-ext-circuits
 
 Once the libraries are installed and the repository is downloaded, navigate to the ```mal-ext-circuits``` directory of the local repository and run
 
-```./build.sh```.
+```bash
+./build.sh
+```
 
 
 ## Running the Experiments
